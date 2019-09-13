@@ -1,14 +1,11 @@
-from model.Book import Book
-from model.Publisher import Publisher
-from model.Collection import Collection
-from model.Loan import Loan
-from model.User import User
-from model.Genre import Genre
 
+from repository.Connection import Connection
 
-book = Book(1, 'livro', 5, 2.5)
-book.publishers = Publisher(1, 'Editora')
-book.collections = Collection(1, 'Coleção')
-book.genre = Genre(1, 'Genero')
-book.loans.append(Loan(1, '01/09/2019', '10/09/2019'))
-book.loans[0].user = User(1, 'Usuário', '99999999', 'usuario@email.com')
+conn = Connection()
+
+for user in conn.user_repository.get_all():
+    print(f'{user}\n')
+
+conn.user_repository.get(1)
+
+conn.close_connection()
