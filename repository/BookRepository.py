@@ -73,39 +73,35 @@ class BookRepository:
         return books
 
     def insert(self, book):
-        try:
-            self.cursor.execute(f'''
-            INSERT INTO {Constants.Book.TABLE} VALUES (
-                {book.title},
-                {book.pages},
-                {book.value_mulct},
-                {book.publisher.id},
-                {book.collection.id},
-                {book.genre.id}
-            )
-            ''')
-            return True
-        except Exception as e:
-            return False
+        self.cursor.execute(f'''
+        INSERT INTO {Constants.Book.TABLE} (
+            {Constants.Book.TITLE},
+            {Constants.Book.PAGES},
+            {Constants.Book.VALUE_MULCT},
+            {Constants.Book.PUBLISHER_ID},
+            {Constants.Book.COLLECTION_ID},
+            {Constants.Book.GENRE_ID}
+        ) VALUES(
+            "{book.title}",
+            {book.pages},
+            {book.value_mulct},
+            {book.publisher.id},
+            {book.collection.id},
+            {book.genre.id}
+        )
+        ''')
 
     def update(self, book):
-        try:
-            self.cursor.execute(f'''
-            UPDATE {Constants.Book.TABLE}
-            SET {Constants.Book.TITLE} = {book.title},
-                {Constants.Book.PAGES} = {book.pages},
-                {Constants.Book.VALUE_MULCT} = {book.value_mulct},
-                {Constants.Book.PUBLISHER_ID} = {book.publisher},
-                {Constants.Book.COLLECTION_ID} = {book.collection},
-                {Constants.Book.GENRE_ID} = {book.genre}
-            ''')
-            return True
-        except Exception as e:
-            return False
+        self.cursor.execute(f'''
+        UPDATE {Constants.Book.TABLE}
+        SET {Constants.Book.TITLE} = "{book.title}",
+            {Constants.Book.PAGES} = {book.pages},
+            {Constants.Book.VALUE_MULCT} = {book.value_mulct},
+            {Constants.Book.PUBLISHER_ID} = {book.publisher.id},
+            {Constants.Book.COLLECTION_ID} = {book.collection.id},
+            {Constants.Book.GENRE_ID} = {book.genre.id}
+        WHERE {Constants.Book.ID} = {book.id}
+        ''')
 
     def delete(self, id):
-        try:
-            self.cursor.execute(f'DELETE FROM {Constants.Book.TABLE} WHERE {Constants.Book.ID} = {id}')
-            return True
-        except Exception as e:
-            return False
+        self.cursor.execute(f'DELETE FROM {Constants.Book.TABLE} WHERE {Constants.Book.ID} = {id}')

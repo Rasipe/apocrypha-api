@@ -81,10 +81,14 @@ class UserRepository:
     def insert(self, user):
         try:
             self.cursor.execute(f'''
-            INSERT INTO {Constants.User.TABLE} VALUES (
-                {user.name},
-                {user.phone},
-                {user.email}
+            INSERT INTO {Constants.User.TABLE}(
+                {Constants.User.NAME},
+                {Constants.User.PHONE},
+                {Constants.User.EMAIL}
+            ) VALUES (
+                "{user.name}",
+                "{user.phone}",
+                "{user.email}"
             )
             ''')
             return True
@@ -95,9 +99,10 @@ class UserRepository:
         try:
             self.cursor.execute(f'''
             UPDATE {Constants.User.TABLE}
-            SET {Constants.User.NAME} = {user.name},
-                {Constants.User.PHONE} = {user.phone},
-                {Constants.User.EMAIL} = {user.email}
+            SET {Constants.User.NAME} = "{user.name}",
+                {Constants.User.PHONE} = "{user.phone}",
+                {Constants.User.EMAIL} = "{user.email}"
+            WHERE {Constants.User.ID} = {user.id}
             ''')
             return True
         except Exception as e:

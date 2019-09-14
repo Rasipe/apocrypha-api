@@ -22,9 +22,11 @@ class LoanRepository:
         except Exception as e:
             return False
 
-    def delete(self, id):
+    def update(self, loan):
         try:
-            self.cursor.execute(f'DELETE FROM {Constants.Loan.TABLE} WHERE {Constants.Loan.ID} = {id}')
+            self.cursor.execute(f'''
+            UPDATE {Constants.Loan.TABLE}
+            SET {Constants.Loan.DATE_DEVOLUTION} = {loan.date_devolution} ''')
             return True
         except Exception as e:
             return False

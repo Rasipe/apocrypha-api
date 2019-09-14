@@ -2,6 +2,10 @@ import sqlite3
 import os
 
 from repository.BookRepository import BookRepository
+from repository.CollectionRepository import CollectionRepository
+from repository.GenreRepository import GenreRepository
+from repository.LoanRepository import LoanRepository
+from repository.PublisherRepository import PublisherRepository
 from repository.UserRepository import UserRepository
 
 from util.Constants import Constants
@@ -19,25 +23,25 @@ class Connection:
         self.cursor = self.connection .cursor()
         self.cursor.execute(f'''
             CREATE TABLE IF NOT EXISTS {Constants.Publisher.TABLE}(
-                {Constants.Publisher.ID} INTEGER PRIMARY KEY,
+                {Constants.Publisher.ID} INTEGER PRIMARY KEY AUTOINCREMENT,
                 {Constants.Publisher.NAME} TEXT NOT NULL
             );
         ''')
         self.cursor.execute(f'''
             CREATE TABLE IF NOT EXISTS {Constants.Collection.TABLE}(
-                {Constants.Collection.ID} INTEGER PRIMARY KEY,
+                {Constants.Collection.ID} INTEGER PRIMARY KEY AUTOINCREMENT,
                 {Constants.Collection.NAME} TEXT NOT NULL
             );
         ''')
         self.cursor.execute(f'''
             CREATE TABLE IF NOT EXISTS {Constants.Genre.TABLE}(
-                {Constants.Genre.ID} INTEGER PRIMARY KEY,
+                {Constants.Genre.ID} INTEGER PRIMARY KEY AUTOINCREMENT,
                 {Constants.Genre.DESCRIPTION} TEXT NOT NULL
             );
         ''')
         self.cursor.execute(f'''
             CREATE TABLE IF NOT EXISTS {Constants.Book.TABLE}(
-                {Constants.Book.ID} INTEGER PRIMARY KEY,
+                {Constants.Book.ID} INTEGER PRIMARY KEY AUTOINCREMENT,
                 {Constants.Book.TITLE} TEXT NOT NULL,
                 {Constants.Book.PAGES} INTEGER NOT NULL,
                 {Constants.Book.VALUE_MULCT} REAL NOT NULL,
@@ -60,7 +64,7 @@ class Connection:
         ''')
         self.cursor.execute(f'''
             CREATE TABLE IF NOT EXISTS {Constants.User.TABLE}(
-                {Constants.User.ID} INTEGER PRIMARY KEY,
+                {Constants.User.ID} INTEGER PRIMARY KEY AUTOINCREMENT,
                 {Constants.User.NAME} TEXT NOT NULL,
                 {Constants.User.PHONE} TEXT,
                 {Constants.User.EMAIL} TEXT
@@ -68,7 +72,7 @@ class Connection:
         ''')
         self.cursor.execute(f'''
             CREATE TABLE IF NOT EXISTS {Constants.Loan.TABLE}(
-                {Constants.Loan.ID} INTEGER PRIMARY KEY,
+                {Constants.Loan.ID} INTEGER PRIMARY KEY AUTOINCREMENT,
                 {Constants.Loan.DATE_LOAN} TEXT NOT NULL,
                 {Constants.Loan.DATE_DEVOLUTION} TEXT,
                 {Constants.Loan.BOOK_ID} INTEGER,
@@ -100,6 +104,12 @@ class Connection:
 
         self.book_repository = BookRepository(self.cursor)
         self.user_repository = UserRepository(self.cursor)
+        self.loan_repository = LoanRepository(self.cursor)
+        self.publisher_repository = PublisherRepository(self.cursor)
+        self.collection_repository = CollectionRepository(self.cursor)
+        self.genre_repository = GenreRepository(self.cursor)
+
+
 
     def close_connection(self):
         self.cursor.close()
