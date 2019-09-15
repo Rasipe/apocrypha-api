@@ -1,20 +1,29 @@
+from Exceptions.CollectionExceptions import DeleteException, InsertException
+from repository.Connection import Connection
 from util.Constants import Constants
 
 
 class CollectionRepository:
-    def __init__(self, cursor):
-        self.cursor = cursor
 
     def insert(self, publisher):
+        cursor = Connection.open()
         try:
-            self.cursor.execute(f'''INSERT INTO {Constants.Publisher.TABLE} VALUES ({publisher.name})''')
-            return True
+            cursor.execute(f'''
+            INSERT INTO {Constants.Publisher.TABLE}(
+                {Constants.Publisher.NAME}
+            ) VALUES ("{publisher.name}")''')
         except Exception as e:
-            return False
+            raise InsertException
+        finally:
+            cursor.close()
+            Connection.close()
 
     def delete(self, id):
+        cursor = Connection.open()
         try:
-            self.cursor.execute(f'DELETE FROM {Constants.Collection.TABLE} WHERE {Constants.Collection.ID} = {id}')
-            return True
+            cursor.execute(f'DELETE FROM {Constants.Collection.TABLE} WHERE {Constants.Collection.ID} = {id}')
         except Exception as e:
-            return False
+            raise DeleteException
+        finally:
+            cursor.close()
+            Connection.close()

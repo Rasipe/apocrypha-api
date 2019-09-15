@@ -1,4 +1,4 @@
-from Exceptions.LoanExceptions import InvalidDateDevolution, InvalidUser, InvalidBook, IvalidDateLoan
+from Exceptions.LoanExceptions import InvalidDateDevolution, InvalidUser, InvalidBook, IvalidDateLoan, UpdateException, InsertException
 
 
 class LoanService:
@@ -16,6 +16,8 @@ class LoanService:
             return e
         except InvalidUser as e:
             return e
+        except InsertException as e:
+            return e
 
     def update(self, loan):
         try:
@@ -23,7 +25,7 @@ class LoanService:
                 raise InvalidDateDevolution
             self.validate(loan)
             self.repository.update(loan)
-            return 'Empréstimo executado com sucesso'
+            return 'Empréstimo finalizado com sucesso'
         except InvalidDateDevolution as e:
             return e
         except IvalidDateLoan as e:
@@ -31,6 +33,8 @@ class LoanService:
         except InvalidBook as e:
             return e
         except InvalidUser as e:
+            return e
+        except UpdateException as e:
             return e
 
     def validate(self, loan):

@@ -1,4 +1,4 @@
-from Exceptions.CollectionExceptions import InvalidCollectionName, InvalidId
+from Exceptions.CollectionExceptions import InvalidCollectionName, DeleteException, InsertException
 
 
 class CollectionService:
@@ -12,16 +12,18 @@ class CollectionService:
             return 'Coleção Inserida com sucesso'
         except InvalidCollectionName as e:
             return e
+        except InsertException as e:
+            return e
 
     def delete(self, id):
         try:
             if id is None:
-                raise InvalidId
+                raise DeleteException
             if not isinstance(id, int):
-                raise InvalidId
+                raise DeleteException
             self.repository.delete(id)
-            return 'Coleção deletado com sucesso'
-        except InvalidId as e:
+            return 'Coleção deletada com sucesso'
+        except DeleteException as e:
             return e
 
     def validate(self, collection):

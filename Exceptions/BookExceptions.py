@@ -13,6 +13,21 @@ class InvalidGenre(Exception):
         Exception.__init__(self, 'Genero Inválido')
 
 
-class InvalidId(Exception):
+class NotFoundException(Exception):
     def __init__(self):
         Exception.__init__(self, 'Livro não encontrado')
+
+
+class InsertException(Exception):
+    def __init__(self):
+        Exception.__init__(self, 'Não foi possivel inserir o livro')
+
+
+class UpdateException(Exception):
+    def __init__(self):
+        Exception.__init__(self, 'Não foi possivel atualizar o livro')
+
+
+class DeleteException(Exception):
+    def __init__(self):
+        Exception.__init__(self, 'Não foi possivel deletar o livro')

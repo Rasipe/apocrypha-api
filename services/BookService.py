@@ -1,10 +1,9 @@
-from Exceptions.BookExceptions import InvalidBookTitle
-from Exceptions.BookExceptions import InvalidPublisher
-from Exceptions.BookExceptions import InvalidGenre
-from Exceptions.BookExceptions import InvalidId
+from Exceptions.BookExceptions import InvalidBookTitle, DeleteException, InvalidPublisher, InvalidGenre, InsertException, UpdateException
+from injector import Module, Key, provider, Injector, inject, singleton
 
 
 class BookService:
+    @inject
     def __init__(self, repository):
         self.repository = repository
 
@@ -25,6 +24,8 @@ class BookService:
             return e
         except InvalidGenre as e:
             return e
+        except InsertException as e:
+            return e
 
     def update(self, book):
         try:
@@ -37,16 +38,18 @@ class BookService:
             return e
         except InvalidGenre as e:
             return e
+        except UpdateException as e:
+            return e
 
     def delete(self, id):
         try:
             if id is None:
-                raise InvalidId
+                raise DeleteException
             if not isinstance(id, int):
-                raise InvalidId
+                raise DeleteException
             self.repository.delete(id)
             return 'Livro deletado com sucesso'
-        except InvalidId as e:
+        except DeleteException as e:
             return e
 
     def validate(self, book):

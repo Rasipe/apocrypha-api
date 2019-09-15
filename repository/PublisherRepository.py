@@ -1,20 +1,29 @@
+from Exceptions.PublisherExceptions import InsertException, DeleteException
 from util.Constants import Constants
+from repository.Connection import Connection
 
 
 class PublisherRepository:
-    def __init__(self, cursor):
-        self.cursor = cursor
 
     def insert(self, publisher):
+        cursor = Connection.open()
         try:
-            self.cursor.execute(f'''INSERT INTO {Constants.Publisher.TABLE} VALUES ({publisher.name})''')
-            return True
+            cursor.execute(f'''
+            INSERT INTO {Constants.Publisher.TABLE}(
+                {Constants.Publisher.NAME}
+            ) VALUES ("{publisher.name}")''')
         except Exception as e:
-            return False
+            raise InsertException
+        finally:
+            cursor.close()
+            Connection.close()
 
     def delete(self, id):
+        cursor = Connection.open()
         try:
-            self.cursor.execute(f'DELETE FROM {Constants.Publisher.TABLE} WHERE {Constants.Publisher.ID} = {id}')
-            return True
+            cursor.execute(f'DELETE FROM {Constants.Publisher.TABLE} WHERE {Constants.Publisher.ID} = {id}')
         except Exception as e:
-            return False
+            raise DeleteException
+        finally:
+            cursor.close()
+            Connection.close()

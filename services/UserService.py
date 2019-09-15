@@ -1,4 +1,5 @@
-from Exceptions.UserExceptions import InvalidId, InvalidUserName, InvalidEmail, InvalidPhone
+from Exceptions.LoanExceptions import NotFoundLoanException
+from Exceptions.UserExceptions import InvalidUserName, InvalidEmail, InvalidPhone, NotFoundException, InsertException, DeleteException, UpdateException
 
 
 class UserService:
@@ -12,7 +13,9 @@ class UserService:
         try:
             self.validate_id(id)
             return self.repository.get(id)
-        except InvalidId as e:
+        except NotFoundException as e:
+            return e
+        except NotFoundLoanException as e:
             return e
 
     def insert(self, user):
@@ -26,6 +29,8 @@ class UserService:
             return e
         except InvalidEmail as e:
             return e
+        except InsertException as e:
+            return e
 
     def update(self, user):
         try:
@@ -38,20 +43,24 @@ class UserService:
             return e
         except InvalidEmail as e:
             return e
+        except UpdateException as e:
+            return e
 
     def delete(self, id):
         try:
             self.validate_id(id)
             self.repository.delete(id)
             return 'Usuário excluido com sucesso'
-        except InvalidId as e:
+        except NotFoundException as e:
+            return e
+        except DeleteException as e:
             return e
 
     def validate_id(self, id):
         if id is None:
-            raise InvalidId
+            raise NotFoundException
         if not isinstance(id, int):
-            raise InvalidId
+            raise NotFoundException
 
     def validate_user(self, user):
         if user.name is None:

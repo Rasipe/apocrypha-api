@@ -1,4 +1,4 @@
-from Exceptions.PublisherExceptions import InvalidPublisherName, InvalidId
+from Exceptions.PublisherExceptions import InvalidPublisherName, DeleteException, InsertException
 
 
 class PublisherService:
@@ -12,16 +12,18 @@ class PublisherService:
             return 'Editora Inserida com sucesso'
         except InvalidPublisherName as e:
             return e
+        except InsertException as e:
+            return e
 
     def delete(self, id):
         try:
             if id is None:
-                raise InvalidId
+                raise DeleteException
             if not isinstance(id, int):
-                raise InvalidId
+                raise DeleteException
             self.repository.delete(id)
             return 'Editora deletado com sucesso'
-        except InvalidId as e:
+        except DeleteException as e:
             return e
 
     def validate(self, publisher):

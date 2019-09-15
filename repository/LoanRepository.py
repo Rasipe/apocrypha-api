@@ -1,13 +1,14 @@
 from util.Constants import Constants
+from repository.Connection import Connection
+from Exceptions.LoanExceptions import InsertException, UpdateException
 
 
 class LoanRepository:
-    def __init__(self, cursor):
-        self.cursor = cursor
 
     def insert(self, loan):
+        cursor = Connection.open()
         try:
-            self.cursor.execute(f'''
+            cursor.execute(f'''
             INSERT INTO {Constants.Loan.TABLE} (
                 {Constants.Loan.DATE_LOAN},
                 {Constants.Loan.BOOK_ID},
@@ -18,15 +19,21 @@ class LoanRepository:
                 {loan.user_id}
             )
             ''')
-            return True
         except Exception as e:
-            return False
+            raise InsertException
+        finally:
+            cursor.close()
+            Connection.close()
 
     def update(self, loan):
+        cursor = Connection.open()
         try:
-            self.cursor.execute(f'''
+            cursor.execute(f'''
             UPDATE {Constants.Loan.TABLE}
-            SET {Constants.Loan.DATE_DEVOLUTION} = {loan.date_devolution} ''')
-            return True
+            SET {Constants.Loan.DATE_DEVOLUTION} = {loan.date_devolution}
+            WHERE {Constants.Loan.ID} = {loan.id}''')
         except Exception as e:
-            return False
+            raise UpdateException
+        finally:
+            cursor.close()
+            Connection.close()

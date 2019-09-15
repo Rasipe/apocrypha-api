@@ -1,25 +1,26 @@
-import bottle
+from injector import Module, Key, provider, Injector, inject, singleton
 
-from Controller import BookController
 from model.Book import Book
-from model.Publisher import Publisher
 from model.Collection import Collection
 from model.Genre import Genre
-from model.Loan import Loan
-from model.User import User
-
+from model.Publisher import Publisher
+from repository.BookRepository import BookRepository
 from repository.Connection import Connection
 
+# injector = Injector()
+# injector.get(Connection)
+
+# test = injector.get(BookRepository)
 from services.BookService import BookService
-from services.LoanService import LoanService
-from services.UserService import UserService
-from services.PublisherService import PublisherService
 
-conn = Connection()
+Connection()
+repo = BookRepository()
+service = BookService(repo)
 
-BookController.service = BookService(conn.book_repository)
+book = Book(1, 'teste', 250, 2.5)
+book.publisher = Publisher(0, '')
+book.collection = Collection(0, '')
+book.genre = Genre(0, '')
+print(service.insert(book))
 
-bottle.debug(True)
-bottle.run(host='localhost', port=8080)
-
-conn.close_connection()
+print(service.get_all())

@@ -16,3 +16,18 @@ class InvalidBook(Exception):
 class IvalidDateLoan(Exception):
     def __init__(self):
         Exception.__init__(self, 'Data do emprestimo invalida')
+
+
+class InsertException(Exception):
+    def __init__(self):
+        Exception.__init__(self, 'Não foi possivel ralizar o empréstimo')
+
+
+class UpdateException(Exception):
+    def __init__(self):
+        Exception.__init__(self, 'Não foi possivel finalizar o empréstimo')
+
+
+class NotFoundLoanException(Exception):
+    def __init__(self):
+        Exception.__init__(self, 'Empréstimo não encontrado')

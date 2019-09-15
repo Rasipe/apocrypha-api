@@ -1,4 +1,4 @@
-from Exceptions.GenreExceptions import InvalidGenreDescription, InvalidId
+from Exceptions.GenreExceptions import InvalidGenreDescription, DeleteException, InserException
 
 
 class GenreService:
@@ -12,16 +12,18 @@ class GenreService:
             return 'Genero Inserida com sucesso'
         except InvalidGenreDescription as e:
             return e
+        except InserException as e:
+            return e
 
     def delete(self, id):
         try:
             if id is None:
-                raise InvalidId
+                raise DeleteException
             if not isinstance(id, int):
-                raise InvalidId
+                raise DeleteException
             self.repository.delete(id)
             return 'Genero deletado com sucesso'
-        except InvalidId as e:
+        except DeleteException as e:
             return e
 
     def validate(self, publisher):
