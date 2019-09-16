@@ -1,4 +1,3 @@
-from injector import Module, Key, provider, Injector, inject, singleton
 
 from Exceptions.BookExceptions import NotFoundException, InsertException, DeleteException, UpdateException
 from repository.Connection import Connection
@@ -13,7 +12,6 @@ from model.User import User
 
 
 class BookRepository:
-    @ inject
     def __init__(self):
         cursor = Connection.open()
         try:

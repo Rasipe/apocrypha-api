@@ -1,9 +1,7 @@
 from Exceptions.BookExceptions import InvalidBookTitle, DeleteException, InvalidPublisher, InvalidGenre, InsertException, UpdateException
-from injector import Module, Key, provider, Injector, inject, singleton
 
 
 class BookService:
-    @inject
     def __init__(self, repository):
         self.repository = repository
 

@@ -1,15 +1,13 @@
-from injector import Module, Key, provider, Injector, inject, singleton
 import sqlite3
 import os
 
-from Exceptions.ConnectionExceptions import ConnectionException
+from Exceptions.Exceptions import ConnectionException
 from util.Constants import Constants
 
 connection = {}
 
 
 class Connection:
-    @inject
     def __init__(self):
         cursor = Connection.open()
         cursor.execute(f'''
@@ -108,7 +106,7 @@ class Connection:
                 open(path, 'w')
             global connection
             if connection == {}:
-                connection = sqlite3.connect(path)
+                connection = sqlite3.connect(path, check_same_thread=False)
                 connection.row_factory = sqlite3.Row
             return connection.cursor()
         except Exception as e:
