@@ -1,4 +1,4 @@
-from Exceptions.CollectionExceptions import InvalidCollectionName, DeleteException, InsertException
+from src.Exceptions.CollectionExceptions import InvalidCollectionName, DeleteException, InsertException
 
 
 class CollectionService:

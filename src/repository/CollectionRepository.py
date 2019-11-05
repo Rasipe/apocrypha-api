@@ -1,6 +1,6 @@
-from Exceptions.CollectionExceptions import DeleteException, InsertException
-from repository.Connection import Connection
-from util.Constants import Constants
+from src.Exceptions.CollectionExceptions import DeleteException, InsertException
+from src.repository.Connection import Connection
+from src.util.Constants import Constants
 
 
 class CollectionRepository:

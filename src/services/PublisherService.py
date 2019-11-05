@@ -1,4 +1,4 @@
-from Exceptions.PublisherExceptions import InvalidPublisherName, DeleteException, InsertException
+from src.Exceptions.PublisherExceptions import InvalidPublisherName, DeleteException, InsertException
 
 
 class PublisherService:

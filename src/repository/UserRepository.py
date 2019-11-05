@@ -1,13 +1,13 @@
-from repository.Connection import Connection
-from util.Constants import Constants
-from Exceptions.UserExceptions import NotFoundException, InsertException, UpdateException, DeleteException
-from Exceptions.LoanExceptions import NotFoundLoanException
-from model.User import User
-from model.Loan import Loan
-from model.Book import Book
-from model.Publisher import Publisher
-from model.Collection import Collection
-from model.Genre import Genre
+from src.repository.Connection import Connection
+from src.util.Constants import Constants
+from src.Exceptions.UserExceptions import NotFoundException, InsertException, UpdateException, DeleteException
+from src.Exceptions.LoanExceptions import NotFoundLoanException
+from src.model.User import User
+from src.model.Loan import Loan
+from src.model.Book import Book
+from src.model.Publisher import Publisher
+from src.model.Collection import Collection
+from src.model.Genre import Genre
 
 
 class UserRepository:

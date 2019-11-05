@@ -1,6 +1,6 @@
-from util.Constants import Constants
-from repository.Connection import Connection
-from Exceptions.LoanExceptions import InsertException, UpdateException
+from src.util.Constants import Constants
+from src.repository.Connection import Connection
+from src.Exceptions.LoanExceptions import InsertException, UpdateException
 
 
 class LoanRepository:

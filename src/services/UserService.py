@@ -1,5 +1,5 @@
-from Exceptions.LoanExceptions import NotFoundLoanException
-from Exceptions.UserExceptions import InvalidUserName, InvalidEmail, InvalidPhone, NotFoundException, InsertException, DeleteException, UpdateException
+from src.Exceptions.LoanExceptions import NotFoundLoanException
+from src.Exceptions.UserExceptions import InvalidUserName, InvalidEmail, InvalidPhone, NotFoundException, InsertException, DeleteException, UpdateException
 
 
 class UserService:

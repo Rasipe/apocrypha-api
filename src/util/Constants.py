@@ -1,4 +1,10 @@
 class Constants:
+    class Database:
+        NAME = 'biblioteca'
+        HOST = 'localhost'
+        PASSWORD = 'Rasilpe.20000330'
+        USER = 'root'
+
     class Publisher:
         TABLE = 'publisher'
         ID = 'publisher_id'

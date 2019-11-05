@@ -1,4 +1,4 @@
-from Exceptions.BookExceptions import InvalidBookTitle, DeleteException, InvalidPublisher, InvalidGenre, InsertException, UpdateException
+from src.Exceptions.BookExceptions import InvalidBookTitle, DeleteException, InvalidPublisher, InvalidGenre, InsertException, UpdateException
 
 
 class BookService:
@@ -8,11 +8,14 @@ class BookService:
     def get_all(self):
         return self.repository.get_all()
 
+    def get(self, book_id):
+        return self.repository.get(book_id)
+
     def insert(self, book):
         try:
             self.validate(book)
             if not hasattr(book.collection, 'id'):
-                from model.Collection import Collection
+                from src.model.Collection import Collection
                 book.collection = Collection(0, '')
             self.repository.insert(book)
             return 'Livro inserido com sucesso'
@@ -42,8 +45,6 @@ class BookService:
     def delete(self, id):
         try:
             if id is None:
-                raise DeleteException
-            if not isinstance(id, int):
                 raise DeleteException
             self.repository.delete(id)
             return 'Livro deletado com sucesso'

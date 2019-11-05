@@ -1,4 +1,4 @@
-from Exceptions.GenreExceptions import InvalidGenreDescription, DeleteException, InserException
+from src.Exceptions.GenreExceptions import InvalidGenreDescription, DeleteException, InserException
 
 
 class GenreService:
