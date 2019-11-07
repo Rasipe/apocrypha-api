@@ -1,9 +1,12 @@
-from src.Exceptions.GenreExceptions import InvalidGenreDescription, DeleteException, InserException
+from src.Exceptions.GenreExceptions import InvalidGenreDescription, DeleteException, InsertException
 
 
 class GenreService:
     def __init__(self, repository):
         self.repository = repository
+
+    def get_all(self):
+        return self.repository.get_all()
 
     def insert(self, genre):
         try:
@@ -12,7 +15,7 @@ class GenreService:
             return 'Genero Inserida com sucesso'
         except InvalidGenreDescription as e:
             return e
-        except InserException as e:
+        except InsertException as e:
             return e
 
     def delete(self, id):

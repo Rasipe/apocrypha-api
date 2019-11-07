@@ -1,18 +1,19 @@
 from flask import Flask
-
-from src.Controller.BookController import BookController
-from src.repository.BookRepository import BookRepository
-from src.repository.Connection import Connection
-
-
-from src.services.BookService import BookService
-
-Connection()
-repo = BookRepository()
-service = BookService(repo)
+from src.controller import BookController, GenreController, CollectionController,PublisherController
 
 app = Flask(__name__)
 
-controller = BookController(service, app)
+app.add_url_rule('/book/<book_id>', view_func=BookController.get_book, methods=['GET'])
+app.add_url_rule('/book', view_func=BookController.get_books, methods=['GET'])
+app.add_url_rule('/book', view_func=BookController.insert_book, methods=['POST'])
+app.add_url_rule('/book', view_func=BookController.update_book, methods=['PUT'])
+app.add_url_rule('/book/<book_id>', view_func=BookController.delete_book, methods=['DELETE'])
 
-app.run()
+app.add_url_rule('/genre', view_func=GenreController.get_genres, methods=['GET'])
+app.add_url_rule('/genre', view_func=GenreController.insert_genre, methods=['POST'])
+
+app.add_url_rule('/collection', view_func=CollectionController.get_collections, methods=['GET'])
+app.add_url_rule('/collection', view_func=CollectionController.insert_collection, methods=['POST'])
+
+app.add_url_rule('/publisher', view_func=PublisherController.get_publishers, methods=['GET'])
+app.add_url_rule('/publisher', view_func=PublisherController.insert_publisher, methods=['POST'])
