@@ -121,7 +121,6 @@ class BookRepository:
         except Exception as e:
             raise DeleteException
         finally:
-            cursor.close()
             Connection.close()
 
 

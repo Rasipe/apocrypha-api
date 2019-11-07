@@ -6,10 +6,30 @@ class BookService:
         self.repository = repository
 
     def get_all(self):
-        return self.repository.get_all()
+        books = []
+        for x in self.repository.get_all():
+            books.append({
+                'id': x.id,
+                'title': x.title,
+                'pages': x.pages,
+                'value_mulct': x.value_mulct,
+                'genre': x.genre.description,
+                'publisher': x.publisher.name,
+                'collection': x.collection.name
+            })
+        return books
 
     def get(self, book_id):
-        return self.repository.get(book_id)
+        book = self.repository.get(book_id)
+        return {
+                'id': book.id,
+                'title': book.title,
+                'pages': book.pages,
+                'value_mulct': book.value_mulct,
+                'genre': book.genre.description,
+                'publisher': book.publisher.name,
+                'collection': book.collection.name
+            }
 
     def insert(self, book):
         try:

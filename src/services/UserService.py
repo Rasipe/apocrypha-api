@@ -7,16 +7,23 @@ class UserService:
         self.repository = repository
 
     def get_all(self):
-        return self.repository.get_all()
-
-    def get(self, id):
-        try:
-            self.validate_id(id)
-            return self.repository.get(id)
-        except NotFoundException as e:
-            return e
-        except NotFoundLoanException as e:
-            return e
+        users = []
+        for x in self.repository.get_all():
+            user = {
+                'id': x.id,
+                'name': x.name,
+                'phone': x.phone,
+                'email': x.email,
+                'loans': []
+            }
+            for y in x.loans:
+                user['loans'].append({
+                    "id": y.id,
+                    "date_loan": y.date_loan,
+                    'book': y.book.title
+                })
+            users.append(user)
+        return users
 
     def insert(self, user):
         try:
@@ -24,13 +31,13 @@ class UserService:
             self.repository.insert(user)
             return 'Usuário inserido com sucesso'
         except InvalidUserName as e:
-            return e
+            return e.args[0]
         except InvalidPhone as e:
-            return e
+            return e.args[0]
         except InvalidEmail as e:
-            return e
+            return e.args[0]
         except InsertException as e:
-            return e
+            return e.args[0]
 
     def update(self, user):
         try:
@@ -38,13 +45,13 @@ class UserService:
             self.repository.update(user)
             return 'Usuário atualizado com sucesso'
         except InvalidUserName as e:
-            return e
+            return e.args[0]
         except InvalidPhone as e:
-            return e
+            return e.args[0]
         except InvalidEmail as e:
-            return e
+            return e.args[0]
         except UpdateException as e:
-            return e
+            return e.args[0]
 
     def delete(self, id):
         try:
@@ -52,14 +59,12 @@ class UserService:
             self.repository.delete(id)
             return 'Usuário excluido com sucesso'
         except NotFoundException as e:
-            return e
+            return e.args[0]
         except DeleteException as e:
-            return e
+            return e.args[0]
 
     def validate_id(self, id):
         if id is None:
-            raise NotFoundException
-        if not isinstance(id, int):
             raise NotFoundException
 
     def validate_user(self, user):
@@ -85,5 +90,5 @@ class UserService:
             raise InvalidPhone
         if user.phone.strip() == '':
             raise InvalidPhone
-        if not len(user.phone) == 8:
+        if not len(user.phone) == 11:
             raise InvalidPhone

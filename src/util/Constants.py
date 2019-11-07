@@ -34,7 +34,7 @@ class Constants:
         TABLE = 'loan'
         ID = 'loan_id'
         DATE_LOAN = 'date_loan'
-        DATE_DEVOLUTION = 'date_volution'
+        DATE_DEVOLUTION = 'date_devolution'
         BOOK_ID = 'book_id'
         USER_ID = 'user_id'
 

@@ -1,4 +1,5 @@
 from src.Exceptions.GenreExceptions import InvalidGenreDescription, DeleteException, InsertException
+from src.util.Constants import Constants
 
 
 class GenreService:
@@ -6,7 +7,13 @@ class GenreService:
         self.repository = repository
 
     def get_all(self):
-        return self.repository.get_all()
+        genres = []
+        for x in self.repository.get_all():
+            genres.append({
+                'value': x.id,
+                'label': x.description
+            })
+        return genres
 
     def insert(self, genre):
         try:

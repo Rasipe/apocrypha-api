@@ -1,5 +1,5 @@
 from flask import Flask
-from src.controller import BookController, GenreController, CollectionController,PublisherController
+from src.controller import BookController, GenreController, CollectionController, PublisherController, UserController, LoanController
 
 app = Flask(__name__)
 
@@ -17,3 +17,11 @@ app.add_url_rule('/collection', view_func=CollectionController.insert_collection
 
 app.add_url_rule('/publisher', view_func=PublisherController.get_publishers, methods=['GET'])
 app.add_url_rule('/publisher', view_func=PublisherController.insert_publisher, methods=['POST'])
+
+app.add_url_rule('/user', view_func=UserController.get_users, methods=['GET'])
+app.add_url_rule('/user', view_func=UserController.insert_user, methods=['POST'])
+app.add_url_rule('/user', view_func=UserController.update_user, methods=['PUT'])
+app.add_url_rule('/user/<user_id>', view_func=UserController.delete_user, methods=['DELETE'])
+
+app.add_url_rule('/loan', view_func=LoanController.insert_loan, methods=['POST'])
+app.add_url_rule('/loan/<loan_id>', view_func=LoanController.devolution, methods=['PUT'])

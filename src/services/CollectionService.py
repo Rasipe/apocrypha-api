@@ -6,7 +6,13 @@ class CollectionService:
         self.repository = repository
 
     def get_all(self):
-        return self.repository.get_all()
+        collections = []
+        for x in self.repository.get_all():
+            collections.append({
+                'value': x.id,
+                'label': x.name
+            })
+        return collections
 
     def insert(self, collection):
         try:

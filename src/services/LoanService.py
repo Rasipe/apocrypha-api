@@ -1,4 +1,6 @@
-from src.Exceptions.LoanExceptions import InvalidDateDevolution, InvalidUser, InvalidBook, IvalidDateLoan, UpdateException, InsertException
+from datetime import datetime
+
+from src.Exceptions.LoanExceptions import InvalidDateDevolution, InvalidUser, InvalidBook, IvalidDateLoan, UpdateException, IvalidDateDevolution
 
 
 class LoanService:
@@ -7,40 +9,12 @@ class LoanService:
 
     def insert(self, loan):
         try:
-            self.validate(loan)
+            loan['date_loan'] = str(datetime.now())
             self.repository.insert(loan)
             return 'Empréstimo executado com sucesso'
         except IvalidDateLoan as e:
             return e
-        except InvalidBook as e:
-            return e
-        except InvalidUser as e:
-            return e
-        except InsertException as e:
-            return e
 
     def update(self, loan):
-        try:
-            if loan.date_devolution == '':
-                raise InvalidDateDevolution
-            self.validate(loan)
-            self.repository.update(loan)
-            return 'Empréstimo finalizado com sucesso'
-        except InvalidDateDevolution as e:
-            return e
-        except IvalidDateLoan as e:
-            return e
-        except InvalidBook as e:
-            return e
-        except InvalidUser as e:
-            return e
-        except UpdateException as e:
-            return e
-
-    def validate(self, loan):
-        if loan.date_loan == '':
-            raise IvalidDateLoan
-        if not hasattr(loan.user, 'id'):
-            raise InvalidUser
-        if not hasattr(loan.book, 'id'):
-            raise InvalidBook
+        self.repository.update(loan)
+        return 'Empréstimo finalizado com sucesso'

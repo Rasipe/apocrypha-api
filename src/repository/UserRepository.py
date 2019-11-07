@@ -15,91 +15,33 @@ class UserRepository:
     def get_all(self):
         cursor = Connection.open()
         try:
-            cursor.execute(f'''
-            SELECT {Constants.User.ID}, {Constants.User.NAME}
-            FROM {Constants.User.TABLE}
-            ''')
+            cursor.execute(f'SELECT * FROM {Constants.User.TABLE}')
             users = []
             for x in cursor.fetchall():
-                users.append(User(x[Constants.User.ID], x[Constants.User.NAME]))
-            return users
-        except Exception as e:
-            raise NotFoundException
-        finally:
-            cursor.close()
-            Connection.close()
-
-
-    def get(self, id):
-        cursor = Connection.open()
-        try:
-            cursor.execute(f'''
-            SELECT * FROM {Constants.User.TABLE}
-            WHERE {Constants.User.ID} = {id}
-            ''')
-            user = {}
-            for x in cursor.fetchall():
-                user = User(
-                    x[Constants.User.ID],
-                    x[Constants.User.NAME],
-                    x[Constants.User.PHONE],
-                    x[Constants.User.EMAIL]
-                )
-                user.loans = self.get_loans(id)
-            return user
-        except Exception as e:
-            raise NotFoundException
-        finally:
-            cursor.close()
-            Connection.close()
-
-    def get_loans(self, user_id):
-        cursor = Connection.open()
-        try:
-            loans = []
-            cursor.execute(f'''
-            SELECT * FROM {Constants.Loan.TABLE}
-            LEFT JOIN {Constants.Book.TABLE}
-            ON {Constants.Book.TABLE}.{Constants.Book.ID} = {Constants.Loan.TABLE}.{Constants.Loan.BOOK_ID}
-            WHERE {Constants.Loan.USER_ID} = {user_id}
-            ''')
-            ids = []
-            for x in cursor.fetchall():
-                loans.append(Loan(
-                    x[Constants.Loan.ID],
-                    x[Constants.Loan.DATE_LOAN],
-                    x[Constants.Loan.DATE_DEVOLUTION],
-                ))
-                ids.append(x[Constants.Book.ID])
-            for i in range(len(loans)):
+                user = User(x[Constants.User.ID], x[Constants.User.NAME], x[Constants.User.PHONE], x[Constants.User.EMAIL])
                 cursor.execute(f'''
-                SELECT * FROM {Constants.Book.TABLE}
-                LEFT JOIN {Constants.Genre.TABLE}
-                ON {Constants.Book.TABLE}.{Constants.Book.GENRE_ID} = {Constants.Genre.TABLE}.{Constants.Genre.ID}
-                LEFT JOIN {Constants.Collection.TABLE}
-                ON {Constants.Book.TABLE}.{Constants.Book.COLLECTION_ID} = {Constants.Collection.TABLE}.{Constants.Collection.ID}
-                LEFT JOIN {Constants.Publisher.TABLE}
-                ON {Constants.Book.TABLE}.{Constants.Book.PUBLISHER_ID} = {Constants.Publisher.TABLE}.{Constants.Publisher.ID}
-                WHERE {Constants.Book.ID} = {ids[i]}            
+                    SELECT * FROM {Constants.Loan.TABLE}
+                    LEFT JOIN {Constants.Book.TABLE}
+                    ON {Constants.Book.TABLE}.{Constants.Book.ID} = {Constants.Loan.TABLE}.{Constants.Loan.BOOK_ID}
+                    WHERE {Constants.Loan.USER_ID} = {user.id}
+                    AND {Constants.Loan.DATE_DEVOLUTION} IS null
                 ''')
-                for x in cursor.fetchall():
-                    book = Book(
-                        x[Constants.Book.ID],
-                        x[Constants.Book.TITLE],
-                        x[Constants.Book.PAGES],
-                        x[Constants.Book.VALUE_MULCT]
+                for y in cursor.fetchall():
+                    loan = Loan(
+                        y[Constants.Loan.ID],
+                        y[Constants.Loan.DATE_LOAN],
+                        y[Constants.Loan.DATE_DEVOLUTION]
                     )
-                    book.publisher = Publisher(x[Constants.Publisher.ID], x[Constants.Publisher.NAME])
-                    book.collection = Collection(x[Constants.Collection.ID], x[Constants.Collection.NAME])
-                    book.genre = Genre(x[Constants.Genre.ID], x[Constants.Genre.DESCRIPTION])
-                    loans[i].book = book
-            return loans
-        except NotFoundLoanException as e:
-            raise NotFoundLoanException
-        except Exception as e:
-            raise NotFoundLoanException
+                    loan.book = Book(
+                        y[Constants.Book.ID],
+                        y[Constants.Book.TITLE],
+                        y[Constants.Book.PAGES],
+                        y[Constants.Book.VALUE_MULCT],
+                    )
+                    user.loans.append(loan)
+                users.append(user)
+            return users
         finally:
-            cursor.close()
             Connection.close()
 
     def insert(self, user):
@@ -119,7 +61,6 @@ class UserRepository:
         except Exception as e:
             raise InsertException
         finally:
-            cursor.close()
             Connection.close()
 
     def update(self, user):
@@ -135,7 +76,6 @@ class UserRepository:
         except Exception as e:
             raise UpdateException
         finally:
-            cursor.close()
             Connection.close()
 
     def delete(self, id):
@@ -145,5 +85,4 @@ class UserRepository:
         except Exception as e:
             raise DeleteException
         finally:
-            cursor.close()
             Connection.close()

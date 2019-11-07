@@ -6,7 +6,13 @@ class PublisherService:
         self.repository = repository
 
     def get_all(self):
-        return self.repository.get_all()
+        publishers = []
+        for x in self.repository.get_all():
+            publishers.append({
+                'value': x.id,
+                'label': x.name
+            })
+        return publishers
 
     def insert(self, publisher):
         try:

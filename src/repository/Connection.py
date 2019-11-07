@@ -57,8 +57,8 @@ class Connection:
         cursor.execute(f'''
             CREATE TABLE IF NOT EXISTS {Constants.Loan.TABLE}(
                 {Constants.Loan.ID} INT AUTO_INCREMENT PRIMARY KEY,
-                {Constants.Loan.DATE_LOAN} VARCHAR(25) NOT NULL,
-                {Constants.Loan.DATE_DEVOLUTION} VARCHAR(25),
+                {Constants.Loan.DATE_LOAN} VARCHAR(50) NOT NULL,
+                {Constants.Loan.DATE_DEVOLUTION} VARCHAR(50),
                 {Constants.Loan.BOOK_ID} INT,
                 {Constants.Loan.USER_ID} INT,
                 FOREIGN KEY ({Constants.Loan.BOOK_ID})
