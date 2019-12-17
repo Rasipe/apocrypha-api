@@ -1,9 +1,25 @@
-from Exceptions.PublisherExceptions import InsertException, DeleteException
-from util.Constants import Constants
-from repository.Connection import Connection
+from src.Exceptions.PublisherExceptions import InsertException, DeleteException
+from src.util.Constants import Constants
+from src.repository import Connection
+from src.model.Publisher import Publisher
 
 
 class PublisherRepository:
+
+    def get_all(self):
+        cursor = Connection.open()
+        try:
+            cursor.execute(f'SELECT * FROM {Constants.Publisher.TABLE}')
+            publishers = []
+            for x in cursor.fetchall():
+                publisher = Publisher(
+                    x[Constants.Publisher.ID],
+                    x[Constants.Publisher.NAME],
+                )
+                publishers.append(publisher)
+            return publishers
+        finally:
+            Connection.close()
 
     def insert(self, publisher):
         cursor = Connection.open()

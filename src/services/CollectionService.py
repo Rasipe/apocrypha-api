@@ -1,9 +1,18 @@
-from Exceptions.CollectionExceptions import InvalidCollectionName, DeleteException, InsertException
+from src.Exceptions.CollectionExceptions import InvalidCollectionName, DeleteException, InsertException
 
 
 class CollectionService:
     def __init__(self, repository):
         self.repository = repository
+
+    def get_all(self):
+        collections = []
+        for x in self.repository.get_all():
+            collections.append({
+                'value': x.id,
+                'label': x.name
+            })
+        return collections
 
     def insert(self, collection):
         try:

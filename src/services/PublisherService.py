@@ -1,9 +1,18 @@
-from Exceptions.PublisherExceptions import InvalidPublisherName, DeleteException, InsertException
+from src.Exceptions.PublisherExceptions import InvalidPublisherName, DeleteException, InsertException
 
 
 class PublisherService:
     def __init__(self, repository):
         self.repository = repository
+
+    def get_all(self):
+        publishers = []
+        for x in self.repository.get_all():
+            publishers.append({
+                'value': x.id,
+                'label': x.name
+            })
+        return publishers
 
     def insert(self, publisher):
         try:

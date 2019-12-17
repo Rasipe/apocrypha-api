@@ -1,9 +1,25 @@
-from Exceptions.GenreExceptions import InsertException, DeleteException
-from util.Constants import Constants
-from repository.Connection import Connection
+from src.Exceptions.GenreExceptions import InsertException, DeleteException
+from src.util.Constants import Constants
+from src.repository import Connection
+from src.model.Genre import Genre
 
 
 class GenreRepository:
+
+    def get_all(self):
+        cursor = Connection.open()
+        try:
+            cursor.execute(f'SELECT * FROM {Constants.Genre.TABLE}')
+            genres = []
+            for x in cursor.fetchall():
+                genre = Genre(
+                    x[Constants.Genre.ID],
+                    x[Constants.Genre.DESCRIPTION],
+                )
+                genres.append(genre)
+            return genres
+        finally:
+            Connection.close()
 
     def insert(self, genre):
         cursor = Connection.open()
