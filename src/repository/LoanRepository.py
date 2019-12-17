@@ -1,5 +1,5 @@
 from src.util.Constants import Constants
-from src.repository.Connection import Connection
+from src.repository import Connection
 from src.Exceptions.LoanExceptions import InsertException, UpdateException
 from datetime import datetime
 

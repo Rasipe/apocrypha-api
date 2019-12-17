@@ -1,6 +1,6 @@
 from src.Exceptions.GenreExceptions import InsertException, DeleteException
 from src.util.Constants import Constants
-from src.repository.Connection import Connection
+from src.repository import Connection
 from src.model.Genre import Genre
 
 

@@ -1,4 +1,4 @@
-from src.repository.Connection import Connection
+from src.repository import Connection
 from src.util.Constants import Constants
 from src.Exceptions.UserExceptions import NotFoundException, InsertException, UpdateException, DeleteException
 from src.Exceptions.LoanExceptions import NotFoundLoanException

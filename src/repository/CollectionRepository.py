@@ -1,5 +1,5 @@
 from src.Exceptions.CollectionExceptions import DeleteException, InsertException
-from src.repository.Connection import Connection
+from src.repository import Connection
 from src.util.Constants import Constants
 from src.model.Collection import Collection
 

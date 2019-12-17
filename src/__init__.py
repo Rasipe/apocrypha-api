@@ -1,10 +1,17 @@
 from flask import Flask
+from flask_cors import CORS
+
 from src.controller import BookController, GenreController, CollectionController, PublisherController, UserController, LoanController
+from src.repository.Connection import create_database
 
 app = Flask(__name__)
+create_database()
+
+CORS(app)
 
 app.add_url_rule('/book/<book_id>', view_func=BookController.get_book, methods=['GET'])
-app.add_url_rule('/book', view_func=BookController.get_books, methods=['GET'])
+app.add_url_rule('/book/client', view_func=BookController.get_books_for_client, methods=['GET'])
+app.add_url_rule('/book/employee', view_func=BookController.get_books_for_employee, methods=['GET'])
 app.add_url_rule('/book', view_func=BookController.insert_book, methods=['POST'])
 app.add_url_rule('/book', view_func=BookController.update_book, methods=['PUT'])
 app.add_url_rule('/book/<book_id>', view_func=BookController.delete_book, methods=['DELETE'])
